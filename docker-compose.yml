@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   proxy:
@@ -19,14 +19,15 @@ services:
       - ./traefik.toml:/traefik.toml
       - ./acme.json:/acme.json
     labels:
-      - traefik.backend="traefik"
-      - traefik.docker.network="web"
-      - traefik.port="${ADMIN_PORT}"
-      - traefik.frontend.rule="Host:${ADMIN_URL}"
-      - traefik.enable="true"
+      - "traefik.backend=traefik"
+      - "traefik.docker.network=web"
+      - "traefik.port=${ADMIN_PORT}"
+      - "traefik.frontend.rule=Host:${ADMIN_URL}"
+      - "traefik.enable=true"
     networks:
       - traefik
 
 networks:
   traefik:
     external: true
+    name: traefik
