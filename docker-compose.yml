@@ -4,7 +4,6 @@ services:
   proxy:
     image: traefik:1.7.9-alpine
     command:
-      - "--entrypoints=Name:traefik Address::${ADMIN_PORT} TLS"
       - "--docker"
       - "--docker.domain=${DOCKER_URL}"
     env_file:
@@ -13,17 +12,17 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "${ADMIN_PORT}:${ADMIN_PORT}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.toml:/traefik.toml
       - ./acme.json:/acme.json
     labels:
       - "traefik.backend=traefik"
-      - "traefik.docker.network=web"
-      - "traefik.port=${ADMIN_PORT}"
+      - "traefik.docker.network=traefik"
+      - "traefik.port=8080"
       - "traefik.frontend.rule=Host:${ADMIN_URL}"
-      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.frontend.auth.basic=${ADMIN_USERNAME}:${ADMIN_PASSWORD}"
     networks:
       - traefik
 
