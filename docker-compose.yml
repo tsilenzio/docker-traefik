@@ -1,8 +1,9 @@
 version: "3.7"
 
 services:
-  proxy:
+  traefik:
     image: traefik:1.7.9-alpine
+    container_name: traefik
     command:
       - "--docker"
       - "--docker.domain=${DOCKER_URL}"
